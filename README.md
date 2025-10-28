@@ -13,7 +13,6 @@ A high-performance distributed system for counting prime numbers using FastAPI, 
 - [Testing](#testing)
 - [Configuration](#configuration)
 - [Resource Considerations](#resource-considerations)
-- [Production Considerations](#production-considerations)
 - [Troubleshooting](#troubleshooting)
 
 ## Architecture
@@ -327,74 +326,6 @@ The system uses a **contiguous range splitting algorithm**:
 | 1,000,000 | 32 | 4 | ~45s | 78,498 |
 
 *Note: Actual performance depends on hardware*
-
-## Production Considerations
-
-Before deploying to production:
-
-### Security
-
-- [ ] Add **rate limiting** (e.g., using FastAPI middleware or nginx)
-- [ ] Implement **authentication** (JWT, OAuth2, or API keys)
-- [ ] Add **authorization** for sensitive operations
-- [ ] Use **secrets management** (not .env files)
-- [ ] Enable **HTTPS** with proper certificates
-- [ ] Configure **CORS** for specific domains only
-
-### Reliability
-- [ ] Set up **monitoring** (Prometheus, Grafana, DataDog)
-- [ ] Configure **logging aggregation** (ELK stack, CloudWatch)
-- [ ] Add **alerting** for failures and performance issues
-- [ ] Implement **circuit breakers** for external dependencies
-- [ ] Set **task timeouts** (soft: 50min, hard: 1hr)
-- [ ] Configure **retry policies** with exponential backoff
-
-### Performance
-- [ ] Add **result caching** (repeated queries return cached results)
-- [ ] Implement **request queuing** to prevent overload
-- [ ] Use **Redis clustering** for high availability
-- [ ] Configure **worker autoscaling** based on queue depth
-- [ ] Set up **database** for persistent job history
-- [ ] Add **CDN** for frontend static assets
-
-### Operational
-- [ ] Use **managed Redis** (ElastiCache, Redis Cloud)
-- [ ] Deploy with **Kubernetes** or **ECS** for orchestration
-- [ ] Set up **CI/CD** pipelines for automated deployments
-- [ ] Configure **backup and disaster recovery**
-- [ ] Document **runbooks** for common issues
-- [ ] Set up **health checks** for load balancers
-
-### Example Production Stack
-```
-┌─────────────┐
-│   Cloudflare │  (CDN + DDoS protection)
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│  Load Balancer│  (ALB/nginx)
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│   Frontend    │  (ECS/K8s, autoscaling)
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│   API Gateway │  (Rate limiting, auth)
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│   FastAPI     │  (ECS/K8s, multiple instances)
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│ Celery Workers│  (ECS/K8s, autoscaling)
-└──────┬───────┘
-       │
-┌──────▼───────┐
-│  Redis Cluster│  (ElastiCache, multi-AZ)
-└──────────────┘
-```
 
 ## Troubleshooting
 
