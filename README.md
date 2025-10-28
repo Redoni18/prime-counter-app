@@ -200,7 +200,6 @@ datafuse/
 ├── docker-compose.yml          # Container orchestration
 ├── .env.example               # Environment variables template
 ├── README.md                  # This file
-├── test_verification.sh       # Integration test script
 ├── backend/
 │   ├── Dockerfile            # Backend container image
 │   ├── requirements.txt      # Python dependencies
@@ -214,7 +213,6 @@ datafuse/
 │       ├── utils.py         # Prime counting logic
 │       └── tests/
 │           ├── test_prime.py        # Unit tests
-│           └── test_integration.py  # Integration tests
 └── frontend/
     ├── Dockerfile           # Frontend container image
     ├── package.json         # Node dependencies
@@ -224,9 +222,6 @@ datafuse/
     │   └── index.vue       # Main page
     ├── components/        # Vue components
     └── app.vue           # App wrapper
-    └── styles/
-        ├── globals.css     # Global styles
-        └── Home.module.css # Page-specific styles
 ```
 
 ## Testing
@@ -288,18 +283,6 @@ The system uses a **contiguous range splitting algorithm**:
    - Progress counters are cleaned up on completion or failure
    - Progress keys expire after 1 hour in Redis
 
-## Resource Considerations
-
-### For Local Development
-
-| Factor | Recommendation | Notes |
-|--------|----------------|-------|
-| Max `n` | 1,000,000 | Larger values work but take longer |
-| Optimal `chunks` | 8-32 | Match your CPU core count |
-| Worker count | 2-4 | More workers = faster processing |
-| Memory | 2GB+ available | Redis + Workers + API |
-| CPU | 4+ cores | Better parallelism |
-
 ### Performance Tips
 
 1. **Worker Scaling**: Scale workers to match available CPU cores
@@ -311,8 +294,6 @@ The system uses a **contiguous range splitting algorithm**:
    - Small `n` (< 100K): Use 4-8 chunks
    - Medium `n` (100K-500K): Use 16-32 chunks  
    - Large `n` (> 500K): Use 32-64 chunks
-
-3. **Redis Tuning**: For production, configure Redis persistence and memory limits
 
 ### Example Benchmarks
 
@@ -435,10 +416,6 @@ Verify the system works correctly:
 - [ ] Progress bar updates in real-time on frontend
 - [ ] Error states are displayed clearly
 - [ ] Health check endpoint returns worker count
-
-## 📝 License
-
-MIT License - feel free to use this project for learning or production!
 
 ## Acknowledgments
 
